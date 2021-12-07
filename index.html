@@ -7,117 +7,39 @@
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-    const root = document.getElementById("root");
-
-    function MinutesToHours() {
-      const [inputNum, setInputNum] = React.useState();
-      const [flipped, setFlipped] = React.useState(true);
-
-      const onFlip = () => {
-        setFlipped((currentFlip) => !currentFlip);
-        onReset();
-      };
-
-      const onReset = () => {
-        setInputNum("");
-      };
-
-      const onChange = (event) => {
-        setInputNum(event.target.value);
-      };
-
+    function Btn({ text, onClick }) {
+      console.log(text);
       return (
-        <div>
-          <label htmlFor="minutes">Minutes</label>
-          <input
-            id="minutes"
-            value={flipped ? inputNum : inputNum * 60}
-            // value={inputNum}
-            onChange={onChange}
-            type="number"
-            placeholder="Minutes"
-            disabled={!flipped}
-          />
-          <label htmlFor="hours">Hours</label>
-          <input
-            id="hours"
-            value={flipped ? inputNum / 60 : inputNum}
-            // value={inputNum / 60}
-            onChange={onChange}
-            type="number"
-            placeholder="hours"
-            disabled={flipped}
-          />
-          <button onClick={onReset}>reset</button>
-          <button onClick={onFlip}>flip</button>
-        </div>
+        <button
+          onClick={onClick}
+          style={{
+            backgroundColor: "tomato",
+            padding: "10px 20px",
+            fontSize: "30px",
+          }}
+        >
+          {text}
+        </button>
       );
     }
 
-    function KmToMiles() {
-      const [inputNum, setInputNum] = React.useState();
-      const [flipped, setFlipped] = React.useState(true);
-
-      const onFlip = () => {
-        setFlipped((currentFlip) => !currentFlip);
-        onReset();
-      };
-
-      const onReset = () => {
-        setInputNum("");
-      };
-
-      const onChange = (event) => {
-        setInputNum(event.target.value);
-      };
-      return (
-        <div>
-          <label htmlFor="km">KM</label>
-          <input
-            id="km"
-            value={flipped ? inputNum : inputNum * 0.62137}
-            // value={inputNum}
-            onChange={onChange}
-            type="number"
-            placeholder="KM"
-            disabled={!flipped}
-          />
-          <label htmlFor="miles">Miles</label>
-          <input
-            id="miles"
-            value={flipped ? inputNum / 0.62137 : inputNum}
-            // value={inputNum / 60}
-            onChange={onChange}
-            type="number"
-            placeholder="miles"
-            disabled={flipped}
-          />
-          <button onClick={onReset}>reset</button>
-          <button onClick={onFlip}>flip</button>
-        </div>
-      );
-    }
+    const MemoBtn = React.memo(Btn);
 
     function App() {
-      const [chosenItem, setItem] = React.useState("x");
-      //   console.log(chosenItem, setItem);
-
-      const onChange = (event) => {
-        setItem(event.target.value);
+      const [btnText, setBtnText] = React.useState("save");
+      const onClick = () => {
+        setBtnText("revert");
+        // console.log("listen!!!");
       };
       return (
         <div>
-          <h2>converter</h2>
-          <select onChange={onChange}>
-            <option value="x">please select item...</option>
-            <option value="0">minutes to hours</option>
-            <option value="1">km to miles</option>
-          </select>
-          {chosenItem === "0" ? <MinutesToHours /> : null}
-          {chosenItem === "1" ? <KmToMiles /> : null}
+          <MemoBtn text={btnText} onClick={onClick} />
+          <MemoBtn text="cancel" />
         </div>
       );
     }
+
+    const root = document.getElementById("root");
 
     ReactDOM.render(<App />, root);
   </script>
