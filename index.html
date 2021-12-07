@@ -3,19 +3,22 @@
   <body id="root">
     <!-- <div id="output"></div> -->
   </body>
-  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
   <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
+
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
   <script type="text/babel">
-    function Btn({ text, onClick }) {
-      console.log(text);
+    function Btn({ text, onClick, fontSize = 100 }) {
+      console.log(text, fontSize);
       return (
         <button
           onClick={onClick}
           style={{
             backgroundColor: "tomato",
             padding: "10px 20px",
-            fontSize: "30px",
+            fontSize,
           }}
         >
           {text}
@@ -23,7 +26,13 @@
       );
     }
 
-    const MemoBtn = React.memo(Btn);
+    Btn.propTypes = {
+      text: PropTypes.string.isRequired,
+      fontSize: PropTypes.number,
+    };
+
+    // const MemoBtn = React.memo(Btn);
+    // how to use : App() return Btn --> MemoBtn
 
     function App() {
       const [btnText, setBtnText] = React.useState("save");
@@ -33,8 +42,8 @@
       };
       return (
         <div>
-          <MemoBtn text={btnText} onClick={onClick} />
-          <MemoBtn text="cancel" />
+          <Btn text={btnText} onClick={onClick} fontSize={50} />
+          <Btn text={"cancel"} />
         </div>
       );
     }
