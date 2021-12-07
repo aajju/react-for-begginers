@@ -9,23 +9,112 @@
   <script type="text/babel">
     const root = document.getElementById("root");
 
-    function App() {
-      const [counter, setCounter] = React.useState(0);
-      //   console.log(counter);
-      //   console.log(setCounter);
+    function MinutesToHours() {
+      const [inputNum, setInputNum] = React.useState();
+      const [flipped, setFlipped] = React.useState(true);
 
-      const onClick = () => {
-        setCounter(counter + 1);
+      const onFlip = () => {
+        setFlipped((currentFlip) => !currentFlip);
+        onReset();
       };
 
-      //   function onClick() {
-      //     setCounter(counter + 1);
-      //   }
+      const onReset = () => {
+        setInputNum("");
+      };
+
+      const onChange = (event) => {
+        setInputNum(event.target.value);
+      };
 
       return (
         <div>
-          <h3>total clicked : {counter}</h3>
-          <button onClick={onClick}>click me</button>
+          <label htmlFor="minutes">Minutes</label>
+          <input
+            id="minutes"
+            value={flipped ? inputNum : inputNum * 60}
+            // value={inputNum}
+            onChange={onChange}
+            type="number"
+            placeholder="Minutes"
+            disabled={!flipped}
+          />
+          <label htmlFor="hours">Hours</label>
+          <input
+            id="hours"
+            value={flipped ? inputNum / 60 : inputNum}
+            // value={inputNum / 60}
+            onChange={onChange}
+            type="number"
+            placeholder="hours"
+            disabled={flipped}
+          />
+          <button onClick={onReset}>reset</button>
+          <button onClick={onFlip}>flip</button>
+        </div>
+      );
+    }
+
+    function KmToMiles() {
+      const [inputNum, setInputNum] = React.useState();
+      const [flipped, setFlipped] = React.useState(true);
+
+      const onFlip = () => {
+        setFlipped((currentFlip) => !currentFlip);
+        onReset();
+      };
+
+      const onReset = () => {
+        setInputNum("");
+      };
+
+      const onChange = (event) => {
+        setInputNum(event.target.value);
+      };
+      return (
+        <div>
+          <label htmlFor="km">KM</label>
+          <input
+            id="km"
+            value={flipped ? inputNum : inputNum * 0.62137}
+            // value={inputNum}
+            onChange={onChange}
+            type="number"
+            placeholder="KM"
+            disabled={!flipped}
+          />
+          <label htmlFor="miles">Miles</label>
+          <input
+            id="miles"
+            value={flipped ? inputNum / 0.62137 : inputNum}
+            // value={inputNum / 60}
+            onChange={onChange}
+            type="number"
+            placeholder="miles"
+            disabled={flipped}
+          />
+          <button onClick={onReset}>reset</button>
+          <button onClick={onFlip}>flip</button>
+        </div>
+      );
+    }
+
+    function App() {
+      const [chosenItem, setItem] = React.useState("x");
+      //   console.log(chosenItem, setItem);
+
+      const onChange = (event) => {
+        setItem(event.target.value);
+      };
+      return (
+        <div>
+          <h2>converter</h2>
+          <select onChange={onChange}>
+            <option value="x">please select item...</option>
+            <option value="0">minutes to hours</option>
+            <option value="1">km to miles</option>
+          </select>
+          {chosenItem === "0" ? <MinutesToHours /> : null}
+          {chosenItem === "1" ? <KmToMiles /> : null}
         </div>
       );
     }
